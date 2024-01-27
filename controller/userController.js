@@ -1,6 +1,6 @@
 import { User } from "../models/user.model.js";
 import { Stock } from "../models/stock.model.js";
-import redis from "../clilent.js";
+
 const addFavoriteStock = async (req, res) => {
   const { userId, stockId } = req.body;
 
@@ -24,7 +24,6 @@ const addFavoriteStock = async (req, res) => {
     );
 
     if (updatedUser) {
-      redis.del(`favourtieStock:${userId}`);
       return res.status(200).json({ message: "Favorite stock added" });
     } else
       return res.status(404).json({ error: "Incorrect userId or stockId" });
@@ -36,24 +35,14 @@ const addFavoriteStock = async (req, res) => {
 const getAllFavorite = async (req, res) => {
   try {
     const { userId } = req.body;
-    const allFavouriteStock = await redis.get(`favourtieStock:${userId}`);
 
-    if (allFavouriteStock)
-      return res
-        .status(200)
-        .json({ allFavoriteStocks: JSON.parse(allFavouriteStock) });
-    else {
-      const user = await User.findById({ _id: userId });
+    const user = await User.findById({ _id: userId });
 
-      if (!user) {
-        return res.status(404).json({ error: "User not found" });
-      }
-      redis.set(
-        `favourtieStock:${userId}`,
-        JSON.stringify(user.favoriteStocks)
-      );
-      return res.status(200).json({ allFavoriteStocks: user.favoriteStocks });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
     }
+
+    return res.status(200).json({ allFavoriteStocks: user.favoriteStocks });
   } catch (err) {
     return res.status(500).json({
       error: "Something went wrong",
@@ -71,7 +60,6 @@ const deleteFavorite = async (req, res) => {
     if (!updatedUser) {
       res.status(404).json({ error: "user not found" });
     }
-    await redis.del(`favourtieStock:${userId}`);
 
     res.status(200).json({
       message: "stock removed succefully",
@@ -90,7 +78,7 @@ const register = async (req, res) => {
 
   try {
     const user = await User.findOne({ username: username });
-    console.log(user);
+
     if (user) {
       return res.status(404).json({ message: "User already exits" });
     }
