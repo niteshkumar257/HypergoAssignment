@@ -9,6 +9,11 @@
 ```bash
 npm install
 npm start
+
+// set up for reddis
+install docker 
+docker pull redis/redis-stack
+docker run -d --name redis-stack -p 6379:6379 -p 8001:8001 redis/redis-stack:latest
 ```
 #### How to use Api's
 -[ Reegister User](#register-user-create-user)
