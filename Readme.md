@@ -79,7 +79,8 @@ output :
 I did able to store multiple days stock so ,I am not able to make a route to send json data from handling graph of stocks with respect to time
 
 
-#### Implemented caching using redis
+#### Implemented caching using reddis ,reddis implemented code is in the caching branch I did not merge that to main because somewhat it is breaking in the production as the hosted the code in render.com
+
 #### hosted the backend in render.com https://niteshkumar11.onrender.com
 
 
