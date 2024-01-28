@@ -1,39 +1,28 @@
 import { Stock } from "../models/stock.model.js";
+import asyncHandler from "../utils/asyncErrorHandler.js";
 
-const getTop10Stocks = async (req, res) => {
+const getTop10Stocks = asyncHandler(async (req, res) => {
   const { parameter } = req.query;
 
-  try {
-    const allStocks = await Stock.find().sort({ parameter: -1 }).limit(10); // databae query
+  const allStocks = await Stock.find().sort({ parameter: -1 }).limit(10); // databae query
 
-    return res.status(200).json({
-      allStocks: allStocks,
-    });
-  } catch (err) {
-    return res.status(500).json({
-      error: err,
-    });
+  return res.status(200).json({
+    allStocks: allStocks,
+  });
+});
+const getStockByName = asyncHandler(async (req, res) => {
+  const { stock_name } = req.query;
+
+  const stock = await Stock.findOne({
+    name: { $regex: stock_name, $options: "i" },
+  });
+
+  if (!stock) {
+    return res.status(404).json({ error: "No stock found" });
   }
-};
-const getStockByName = async (req, res) => {
-  try {
-    const { stock_name } = req.query;
-
-    const stock = await Stock.findOne({
-      name: { $regex: stock_name, $options: "i" },
-    });
-
-    if (!stock) {
-      return res.status(404).json({ error: "No stock found" });
-    }
-    return res.status(200).json({
-      stock: stock,
-    });
-  } catch (err) {
-    res.status(500).json({
-      message: "some thing went wrong",
-    });
-  }
-};
+  return res.status(200).json({
+    stock: stock,
+  });
+});
 const getStockForUI = (req, res) => {};
 export { getTop10Stocks, getStockByName, getStockForUI };
