@@ -36,7 +36,7 @@ const getAllFavorite = async (req, res) => {
   try {
     const { userId } = req.body;
 
-    const user = await User.findById({ _id: userId });
+    const user = await User.findById({ _id: userId }).populate('favoriteStocks.stock');
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });

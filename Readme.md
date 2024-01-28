@@ -27,7 +27,7 @@ docker run -d --name redis-stack -p 6379:6379 -p 8001:8001 redis/redis-stack:lat
 #### Register user (create user)
  /register 
 provide username and password in body
-![Alt text](./public/image.png)
+![Alt text](./public/image23.png)
 
 output:
 ![Alt text](./public/image-4.png)
@@ -46,7 +46,7 @@ provide userId in body
 ![Alt text](./public/image-2.png)
 
 output:
-![Alt text](./public/image-7.png)
+![Alt text](./public/image.png)
 
 #### Delete favourite stock
 /deleteFavorite
