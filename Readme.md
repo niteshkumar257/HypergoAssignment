@@ -75,6 +75,11 @@ output :
 ![Alt text](./public/image-13.png)
 
 
+### Find all stocks 
+/getAllstocks
+![Alt text](./public/image45.png)
+
+
 #### Ui plot for the Stocks
 I did not able to store multiple days stock so ,I am not able to make a route to send json data from handling graph of stocks with respect to time
 
