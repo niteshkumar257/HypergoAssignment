@@ -9,7 +9,8 @@ const router = express.Router();
 
 router.get("/top10stocks", getTop10Stocks);
 router.get("/getByName", getStockByName);
-router.get("/getForgraph", getStockForUI);
+router.get("/getHistoryOfStock", getStockForUI);
 router.get('/getAllStock',getAllStocks);
+
 
 export default router;

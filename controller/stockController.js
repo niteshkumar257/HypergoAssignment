@@ -3,13 +3,36 @@ import asyncHandler from "../utils/asyncErrorHandler.js";
 
 const getTop10Stocks = asyncHandler(async (req, res) => {
   const { parameter } = req.query;
+  let sortQuery = {};
 
-  const allStocks = await Stock.find().sort({ parameter: -1 }).limit(10); // databae query
+  if (parameter) {
+    const parameters = parameter.split(",");
+
+    parameters.forEach((paramWithValue) => {
+      const [param, value] = paramWithValue.split(":");
+
+      if (["open", "high", "low", "close"].includes(param)) {
+        const sortOrder = parseInt(value);
+
+        if (sortOrder === -1 || sortOrder === 1) {
+          sortQuery[param] = sortOrder;
+        }
+      }
+    });
+  }
+
+  // If no valid parameter sort via desc
+  if (Object.keys(sortQuery).length === 0) {
+    sortQuery["close"] = -1;
+  }
+
+  const allStocks = await Stock.find().sort(sortQuery).limit(10); // Database query
 
   return res.status(200).json({
     allStocks: allStocks,
   });
 });
+
 const getStockByName = asyncHandler(async (req, res) => {
   const { stock_name } = req.query;
 
@@ -24,7 +47,44 @@ const getStockByName = asyncHandler(async (req, res) => {
     stock: stock,
   });
 });
-const getStockForUI = (req, res) => {};
+
+const getStockForUI = async (req, res) => {
+  const { stockCode } = req.query;
+  // I used stockCode as of now it can also done passing stock_id upon finding stock_code the stock
+
+  if (!stockCode) {
+    return res.status(400).json({ error: "Stock code is required" });
+  }
+
+  try {
+    const stockHistory = await Stock.find({ code: stockCode }).sort({
+      createdAt: 1,
+    });
+
+    if (!stockHistory || stockHistory.length === 0) {
+      return res.status(404).json({ error: "Stock data not found" });
+    }
+
+    const graphData = stockHistory.map((stock) => ({
+      date: stock.createdAt,
+      close: stock.close,
+      open:stock.open,
+      low:stock.low,
+      high:stock.high
+    }));
+
+    return res.status(200).json({
+      stockCode: stockCode,
+      stockHistory: graphData,
+    });
+  } catch (error) {
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+
+
+
 const getAllStocks = async (req, res) => {
   try {
     const stocks = await Stock.find();
@@ -40,3 +100,4 @@ const getAllStocks = async (req, res) => {
   }
 };
 export { getTop10Stocks, getStockByName, getStockForUI, getAllStocks };
+
