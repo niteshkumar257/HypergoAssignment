@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-   "start": "nodemon -r dotenv/config --experimental-json-modules index.js"
+    "start": "nodemon -r dotenv/config --experimental-json-modules index.js"
   },
   "author": "Nitesh Kumar",
   "license": "ISC",
@@ -16,11 +16,13 @@
     "csv": "^6.3.6",
     "csv-parse": "^5.5.3",
     "csv-parser": "^3.0.0",
+    "decompress": "^4.2.1",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "ioredis": "^5.3.2",
     "mongoose": "^8.1.0",
     "redis": "^4.6.12",
-    "unzipper": "^0.10.14"
+    "unzipper": "^0.10.14",
+    "zlib": "^1.0.5"
   }
 }

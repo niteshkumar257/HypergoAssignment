@@ -82,4 +82,22 @@ const getStockForUI = async (req, res) => {
   }
 };
 
-export { getTop10Stocks, getStockByName, getStockForUI };
+
+
+
+const getAllStocks = async (req, res) => {
+  try {
+    const stocks = await Stock.find();
+
+    res.status(200).json({
+      allStocks: stocks,
+      count: stocks.length,
+    });
+  } catch (err) {
+    res.status(500).json({
+      error: err,
+    });
+  }
+};
+export { getTop10Stocks, getStockByName, getStockForUI, getAllStocks };
+
