@@ -22,7 +22,8 @@ docker run -d --name redis-stack -p 6379:6379 -p 8001:8001 redis/redis-stack:lat
 -[ Delete Favourite stock](#delete-favourite-stock)
 -[ Find stock by name](#find-stock-by-name)
 -[ Top 10 stocks](#find-top-10-stocks)
--[ UI of Stocks](#ui-plot-for-the-stocks)
+-[ UI of Stocks](#ui-for-stocks)
+
 
 #### Register user (create user)
  /register 
@@ -69,14 +70,19 @@ Ouput:
 #### Find Top 10 stocks
 /top10stocks
 Provide the parameter 
-![Alt text](./public/image-12.png)
+input
+![alt text](./public/image57.png)
 
 output :
-![Alt text](./public/image-13.png)
+![alt text](./public/image58.png)
 
 
-#### Ui plot for the Stocks
-I did not able to store multiple days stock so ,I am not able to make a route to send json data from handling graph of stocks with respect to time
+### Ui for stocks
+input :
+![alt text](./public/image99.png)
+
+output :
+![alt text](./public/image78.png)
 
 
 #### Implemented caching using reddis ,reddis implemented code is in the caching branch I did not merge that to main because somewhat it is breaking in the production as the hosted the code in render.com
